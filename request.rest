@@ -1,0 +1,26 @@
+GET http://localhost:5000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWUiLCJpYXQiOjE1ODgwNzI2OTd9.6WcAVxzAiVPci_rDOMLJekSHKz2GNA8MVzg3lulXZOQ
+###
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username" : "me"
+}
+
+###
+
+POST http://localhost:5000/token
+Content-Type: application/json
+
+{
+    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWUiLCJpYXQiOjE1ODgwNzI2OTd9.6WcAVxzAiVPci_rDOMLJekSHKz2GNA8MVzg3lulXZOQ"
+}
+###
+DELETE  http:localhost:3000/logout
+Content-Type: application/json
+
+{
+    "username" : "me"
+}
