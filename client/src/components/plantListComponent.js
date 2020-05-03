@@ -170,7 +170,7 @@ export default class PlantsList extends Component {
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Date Watered</th>
+                  <th>Water Date</th>
                   <th>Sunlight Requirements</th>
                   <th>Actions</th>
                 </tr>
