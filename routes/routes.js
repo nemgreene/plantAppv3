@@ -115,14 +115,4 @@ router.delete("/token", function (req, res) {
   res.json("logout successful");
 });
 
-router.get("/plants", function (req, res) {
-  Plant.find(function (err, plants) {
-    if (err) {
-      console.log(err);
-    } else {
-      return res.json(plants);
-    }
-  });
-});
-
 module.exports = router;

@@ -62,12 +62,7 @@ export default class PlantsList extends Component {
               document.cookie = `accessToken= ${response.data.accessToken}"`;
               document.cookie = `refreshToken= ${response.data.refreshToken}`;
             });
-            //retry our intial call with updated cookies in document
-            axios.get(`/user/plants `).then((response) => {
-              if (this._isMounted) {
-                this.setState({ plants: this.state.plants, loaded: true });
-              }
-            });
+            this.setState({ plants: this.state.plants, loaded: true });
             //handle successfull request
           } else {
             if (typeof response.data === "object" && this._isMounted) {
