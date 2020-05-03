@@ -13,7 +13,7 @@ class NavBar extends React.Component {
       <div className="container">
         <nav className=" navbar navbar-expand-md navbar-light bg-light">
           <div className="navbarBrand">
-            <img href="/head/" src={logo} width="30" alt="logo"></img>
+            <img src={logo} width="30" alt="logo"></img>
           </div>
           <div className="null">
             <ul className="navbar-nav mr-auto">

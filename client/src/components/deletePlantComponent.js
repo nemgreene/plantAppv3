@@ -11,7 +11,6 @@ class DeletePlantComponent extends React.Component {
   }
 
   deleteFromDB() {
-    //straightforward stuff, send off delete request with id in body
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 

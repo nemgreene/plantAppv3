@@ -4,7 +4,7 @@ import React, { Component } from "react";
 export default class WaterPlant extends Component {
   constructor(props) {
     super(props);
-
+    //only handle effecting date watered
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
@@ -32,7 +32,6 @@ export default class WaterPlant extends Component {
     dd = dd < 10 ? "0" + dd : dd;
     today = yyyy + "-" + mm + "-" + dd;
     //beam me up
-
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     myHeaders.append("Cookie", document.cookie);

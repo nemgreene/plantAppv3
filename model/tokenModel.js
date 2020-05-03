@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-//refresh, access token model
 const TokenModel = new Schema({
   refreshToken: {
     type: String,

@@ -11,8 +11,6 @@ import CreatePlant from "./components/createPlantComponent";
 import DeletePlant from "./components/deletePlantComponent";
 import LogoutComponent from "./components/logoutComponent";
 
-import HeadComponent from "./components/head/Head";
-
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}

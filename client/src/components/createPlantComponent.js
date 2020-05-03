@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import NavBar from "./navBarComponent";
 import axios from "axios";
 
-// add plant form page
-
 let baseUrl = process.env.baseURL || "http://localhost:4000";
 //get date
 var today = new Date(),
@@ -34,12 +32,10 @@ export default class CreatePlant extends Component {
       water_day: "1",
       water_frequency: "",
       increment_frequency: "",
-      //alert for forbidden characters
       flagged: false,
     };
   }
 
-  //check inputs as from is being filled
   checkForbidden(string) {
     let forbidden = "!@#$%^&*()_+-={}[]|'<>?/;:".split("");
     if (forbidden.includes(string.slice(-1))) {
@@ -50,7 +46,7 @@ export default class CreatePlant extends Component {
       return "valid";
     }
   }
-
+  //repetetive scripting?
   componentDidMount() {
     this.setState({
       date_watered: today,
@@ -123,7 +119,14 @@ export default class CreatePlant extends Component {
       !water_frequency
     ) {
       console.log("incomplete feilds");
-
+      console.log(
+        plant_description,
+        water_amount,
+        date_watered,
+        plant_priority,
+        water_day,
+        water_frequency
+      );
       this.setState({ flagged: true });
       this.message = "Missing required fields";
       return;
@@ -155,7 +158,6 @@ export default class CreatePlant extends Component {
       .then((result) => {
         if (result === '"timeout error"') {
           console.log("403 returned, refreshing access token");
-          //get new access token
           axios({
             method: "get",
             url: baseUrl + "/token",
@@ -179,7 +181,7 @@ export default class CreatePlant extends Component {
               "Content-Type",
               "application/x-www-form-urlencoded"
             );
-            //retry add erquest
+
             var urlencoded = new URLSearchParams();
             urlencoded.append(
               "plant_description",
@@ -202,9 +204,14 @@ export default class CreatePlant extends Component {
               .then((result) => console.log(result))
               .catch((error) => console.log("error", error));
           });
+          console.log("retry intial call");
+          console.log(document.cookie);
+          //retry our intial call with updated cookies in document
         }
       })
       .catch((error) => console.log("error", error));
+
+    /* this.props.history.push("/dash"); */
 
     //reset form?
     //    this.setState({

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import NavBar from "./navBarComponent";
-//edit plant form page
+//edit plant
 
 export default class EditPlant extends Component {
-  //stop async tasks after didUnmount
   _isMounted = false;
 
   constructor(props) {
@@ -74,19 +73,16 @@ export default class EditPlant extends Component {
               },
             })
             .then((res) => {
-              if (this._isMounted) {
-                this.setState({
-                  _id: res.data._id,
-                  plant_description: res.data.plant_description,
-                  water_amount: res.data.water_amount,
-                  plant_priority: res.data.plant_priority,
-                  plant_completed: res.data.plant_completed,
-                  date_watered: res.data.date_watered,
-                  increment_frequency: res.data.increment_frequency,
-                  water_frequency: res.data.water_frequency,
-                  loaded: true,
-                });
-              }
+              this.setState({
+                _id: res.data._id,
+                plant_description: res.data.plant_description,
+                water_amount: res.data.water_amount,
+                plant_priority: res.data.plant_priority,
+                plant_completed: res.data.plant_completed,
+                date_watered: res.data.date_watered,
+                increment_frequency: res.data.increment_frequency,
+                water_frequency: 1,
+              });
             });
           //handle successfull request
         } else {
@@ -99,7 +95,7 @@ export default class EditPlant extends Component {
               plant_completed: res.data.plant_completed,
               date_watered: res.data.date_watered,
               increment_frequency: res.data.increment_frequency,
-              water_frequency: res.data.water_frequency,
+              water_frequency: 1,
               loaded: true,
             });
           }
@@ -109,36 +105,20 @@ export default class EditPlant extends Component {
         console.log("didmount error");
       });
   }
-  //chuck input as forms are updated
-  checkForbidden(string) {
-    let forbidden = "!@#$%^&*()_+-={}[]|'<>?/;:".split("");
-    if (forbidden.includes(string.slice(-1))) {
-      this.message = "Forbidden character";
-      return "invalid";
-    } else {
-      this.setState({ flagged: false });
-      return "valid";
-    }
-  }
+
+  //handle repetetive code?
 
   onChangePlantDescription(e) {
-    if (this.checkForbidden(e.target.value) === "invalid") {
-      this.setState({ flagged: true });
-    } else {
-      this.setState({
-        plant_description: e.target.value,
-      });
-    }
+    this.setState({
+      plant_description: e.target.value,
+    });
   }
 
   onChangeWaterAmount(e) {
-    if (this.checkForbidden(e.target.value) === "invalid") {
-      this.setState({ flagged: true });
-    } else {
-      this.setState({
-        water_amount: e.target.value,
-      });
-    }
+    console.log(e.target.value);
+    this.setState({
+      water_amount: e.target.value,
+    });
   }
   onChangePlantPriority(e) {
     this.setState({

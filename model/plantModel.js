@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-//plaknt model
 let Plant = new Schema({
   plant_description: {
     type: String,

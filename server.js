@@ -29,9 +29,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const routes = require("./routes/routes");
 const secureRoute = require("./routes/secure-routes");
 
-//jtw auth middleware
 async function authenitcate(req, res, next) {
+  /*   console.log("JWT authenticating"); */
   let authHeader = req.headers.cookie;
+
   if (authHeader === undefined) {
     authHeader = req.headers.authorization;
     if (authHeader === undefined) {
@@ -39,14 +40,11 @@ async function authenitcate(req, res, next) {
       return res.json("403");
     }
   }
-  //found auth header
-
   let accessToken = authHeader && authHeader.split(" ")[1];
   let refreshToken = authHeader && authHeader.split(" ")[2];
   if (refreshToken === null || accessToken === null) {
     return res.json("no access found");
   }
-
   refreshToken = refreshToken.slice(12, -2);
   accessToken = accessToken.slice(12, -2);
 
@@ -62,10 +60,10 @@ async function authenitcate(req, res, next) {
     }
   });
 }
-//public routes
 app.use("/", routes);
-//protected routes
-app.use("/user", authenitcate, secureRoute, async (req, res) => {
+
+//We plugin our jwt strategy as a middleware so only verified users can access this route
+app.use("/user", /* authenitcate ,*/ secureRoute, async (req, res) => {
   console.log("using authenticated route");
 });
 

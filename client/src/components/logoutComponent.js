@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 
+let baseUrl = process.env.baseURL || "http://localhost:4000";
+
 class LogoutComponent extends React.Component {
   constructor(props) {
     super(props);

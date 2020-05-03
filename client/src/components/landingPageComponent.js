@@ -8,7 +8,6 @@ class WelcomePage extends React.Component {
       id: null,
     };
   }
-  //public landing page
 
   render() {
     return (

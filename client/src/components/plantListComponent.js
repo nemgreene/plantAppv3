@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import NavBar from "./navBarComponent";
 import { Plant, Plants } from "./plantComponents";
-//bulk of the dash page, rendering 2 tables from 1 db call
+
 let baseUrl = process.env.baseURL || "http://localhost:4000";
-//counter to see if watering callendar is empty
+
 let empty = 0;
 
 export default class PlantsList extends Component {
@@ -62,8 +62,12 @@ export default class PlantsList extends Component {
               document.cookie = `accessToken= ${response.data.accessToken}"`;
               document.cookie = `refreshToken= ${response.data.refreshToken}`;
             });
-
-            this.setState({ plants: this.state.plants, loaded: true });
+            //retry our intial call with updated cookies in document
+            axios.get(`/user/plants `).then((response) => {
+              if (this._isMounted) {
+                this.setState({ plants: this.state.plants, loaded: true });
+              }
+            });
             //handle successfull request
           } else {
             if (typeof response.data === "object" && this._isMounted) {
@@ -74,11 +78,10 @@ export default class PlantsList extends Component {
         .catch(function (err) {});
     }
   }
-  //plant log
+
   plantList() {
-    //avoid trying to map before plants has any data
     if (typeof this.state.plants === "string") {
-      return <div></div>;
+      console.log("dont map me");
     } else {
       return this.state.plants.map((currentPlant, i) => {
         return <Plant plant={currentPlant} key={i} />;
@@ -87,7 +90,6 @@ export default class PlantsList extends Component {
   }
   //Plants to be watered to be rendered
   plantCallendar() {
-    //avoid trying to map before plants has any data
     if (typeof this.state.plants === "string") {
       return <div></div>;
     } else if (this._isMounted) {
@@ -117,12 +119,13 @@ export default class PlantsList extends Component {
           totalDays = callendar[mm],
           freq = currentPlant.increment_frequency;
         //allows to set to future for counting
+        //if (date_watered > dd) return null;
         //water every day?
         if (parseInt(date_watered) > parseInt(dd)) return null;
-        //watering 2 of 3 times per day?
         if (freq === 0) {
           empty = 1;
           return <Plants plant={currentPlant} key={i} message={"Every Day"} />;
+          //watering 2 of 3 times per day?
         }
         //reset around end/start of month
         if (date_watered >= totalDays - freq) {
@@ -134,7 +137,7 @@ export default class PlantsList extends Component {
           (parseInt(date_watered) + Math.floor(freq) === date ||
             parseInt(date_watered) + Math.ceil(freq) === date)
         ) {
-          empty = 1;
+          empty = empty;
           return (
             <Plants
               plant={currentPlant}

@@ -1,5 +1,5 @@
 import React from "react";
-//register
+
 class RegisterComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -11,10 +11,10 @@ class RegisterComponent extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      name: "",
-      email: "",
-      password: "",
-      password2: "",
+      name: "vincent",
+      email: "vincent.r.greene@gmail.com",
+      password: "toor",
+      password2: "toor",
       failure: false,
     };
   }
@@ -32,11 +32,8 @@ class RegisterComponent extends React.Component {
     this.setState({ password2: e.target.value });
   }
   onSubmit() {
-    let { name, email, password, password2 } = this.state;
-    if ((!name, !email, !password, !password2 || password !== password2)) {
-      this.setState({ failure: true });
-      return null;
-    }
+    //let hashedPassword = bcrypt.hash(this.state.password, 10)
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -85,6 +82,14 @@ class RegisterComponent extends React.Component {
                   >
                     <strong>Sorry! </strong>Could not validate information
                     submitted
+                    <button
+                      type="button"
+                      className="close"
+                      data-dismiss="alert"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
                 ) : null}
               </label>

@@ -24,6 +24,8 @@ export default class WaterPlant extends Component {
   }
 
   onSubmit() {
+    //let hashedPassword = bcrypt.hash(this.state.password, 10)
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -54,7 +56,9 @@ export default class WaterPlant extends Component {
             -2
           );
 
-          document.cookie = `accessToken = ${accessToken}`;
+          /*             console.log(accessToken);
+           */ document.cookie = `accessToken = ${accessToken}`;
+          /*             console.log(document.cookie); */
           document.cookie = `refreshToken = ${refreshToken}`;
 
           this.props.history.push("/dash");
@@ -69,6 +73,7 @@ export default class WaterPlant extends Component {
         <div className="col-md-6 m-auto">
           <div className="card card-body">
             <h1 className="text-center mb-3">
+              {/*               <div>{this.state.cookie}</div> */}
               <i className="fas fa-sign-in-alt"></i> Login
             </h1>
             <div>

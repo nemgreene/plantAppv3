@@ -32,18 +32,28 @@ router.post("/login", async (req, res, next) => {
         console.log("return err to next ");
         return next(error);
       }
+      console.log("no error from passport auth, onto the next");
       req.login(user, { session: false }, async (error) => {
+        console.log(
+          "startign next step?, passing user with hashed password, consider inserting cookie here"
+        );
         if (error) return next(error);
+        console.log("no error returned");
+        //We don't want to store the sensitive information such as the
         //user password in the token so we pick only the email and id
         const body = { _id: user._id, email: user.email };
+        console.log("body = deconstructed body");
         //Sign the JWT token and populate the payload with the user email and id
-        //time to get some AccessTokens set up
+
+        /*         const accessToken = jwt.sign({ user: body }, "top_secret"); */
+        console.log("token signed, stored in token, see token below");
         let accessToken = jwt.sign({ user }, "top_secret", {
           expiresIn: "1m",
         });
-        // time to get some RefreshTokens set up
+
+        console.log("time to get some RefreshTokens set up");
         const refreshToken = jwt.sign({ user: body }, "refresh_secret");
-        //pass them to db
+
         let dbToken = new Token({
           refreshToken: refreshToken,
           accessToken: accessToken,
@@ -57,6 +67,10 @@ router.post("/login", async (req, res, next) => {
           });
 
         //Send back the token to the user
+        console.log(accessToken);
+        console.log("token tested, ready to be sent off in response");
+
+        console.log("returning response");
         return res.json({ accessToken, refreshToken });
       });
     } catch (error) {
@@ -84,7 +98,9 @@ router.get("/token", function (req, res) {
   jwt.verify(refreshToken, "refresh_secret", (err, user) => {
     if (err) {
       throw err;
+      return res.json("refreshToken not valid");
     }
+    console.log("jwt confirmed");
     //if we've come this far, we can know that the refresh token is valid
     //on to the next
     //create update access token(out of decoded refresh token)
@@ -101,12 +117,19 @@ router.get("/token", function (req, res) {
   });
 });
 
-//delete refresh token on logout
+/* router.patch("/plants/update", (req, res) => {
+  console.log(req.params);
+}); */
+
 router.delete("/token", function (req, res) {
+  console.log("Lets delete some refreshtokens fam");
   if (req.headers.authorization === null) {
+    console.log("cant find any headers");
     res.json("trying to log out now");
   } else {
+    console.log("found the headers");
     let refreshToken = req.headers.authorization.split(" ")[2];
+    console.log(refreshToken);
     refreshToken = refreshToken.slice(13);
     Token.findOneAndDelete({ refreshToken: refreshToken }, (err, token) => {
       if (!token) console.log("No Token in db");
@@ -116,6 +139,16 @@ router.delete("/token", function (req, res) {
   res.json("logout successful");
 });
 
-//get plants in db
+router.get("/plants", function (req, res) {
+  console.log("routing to unsecure plants route");
+  Plant.find(function (err, plants) {
+    if (err) {
+      console.log("Hello");
+    } else {
+      console.log("found any plants?");
+      return res.json(plants);
+    }
+  });
+});
 
 module.exports = router;

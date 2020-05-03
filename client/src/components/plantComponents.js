@@ -1,9 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import DeletePlantComponent from "./deletePlantComponent";
 import WaterComponent from "./waterComponent.js";
-//individual table objects rendered
+
 const Plant = (props) => (
-  //obj rendered in plant log
   <tr>
     <td className="plantsLi">{props.plant.plant_description}</td>
     <td className="plantsLi">{props.plant.date_watered}</td>
@@ -18,7 +18,6 @@ const Plant = (props) => (
 );
 
 const Plants = (props) => (
-  //obj rendered in water callendar
   <tr>
     <td>{props.plant.plant_description} </td>
     <td> {props.message}</td>

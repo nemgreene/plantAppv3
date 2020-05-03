@@ -10,7 +10,6 @@ import LoginComponent from "./loginComponent";
 import RegisterComponent from "./register.Compponent";
 import LogoutComponent from "./logoutComponent";
 
-//user dashboard
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
@@ -46,7 +45,13 @@ export default DashboardComponent;
 
 //asssignment:
 //login/user specific db
+//version control github
+//deploy
 
 //for my sanity:
 //plant IMG
+//Verify unique name in db, implement dup name strat (xA/x.a?)
+//make not ugly(?)
+//refact freq_inc logic(water)
+//feild filled verif
 //water all
