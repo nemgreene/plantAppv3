@@ -9,9 +9,13 @@ const Plant = (props) => (
     <td className="plantsLi">{props.plant.date_watered}</td>
     <td className="plantsLi">{props.plant.plant_priority}</td>
     <td>
-      <a href="/edit/" style={{ width: 71 }} className="btn btn-outline-dark">
+      <Link
+        style={{ width: 71 }}
+        className="btn btn-outline-dark"
+        to={"/edit/" + props.plant._id}
+      >
         Edit
-      </a>
+      </Link>
       <DeletePlantComponent id={props.plant._id} />
     </td>
   </tr>

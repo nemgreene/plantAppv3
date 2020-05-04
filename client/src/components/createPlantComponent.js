@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NavBar from "./navBarComponent";
 import axios from "axios";
+//create plant page
 
 let baseUrl = process.env.baseURL || "http://localhost:4000";
 //get date
@@ -46,7 +47,7 @@ export default class CreatePlant extends Component {
       return "valid";
     }
   }
-  //repetetive scripting?
+
   componentDidMount() {
     this.setState({
       date_watered: today,

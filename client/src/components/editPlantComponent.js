@@ -86,19 +86,17 @@ export default class EditPlant extends Component {
             });
           //handle successfull request
         } else {
-          if (this._isMounted) {
-            this.setState({
-              _id: res.data._id,
-              plant_description: res.data.plant_description,
-              water_amount: res.data.water_amount,
-              plant_priority: res.data.plant_priority,
-              plant_completed: res.data.plant_completed,
-              date_watered: res.data.date_watered,
-              increment_frequency: res.data.increment_frequency,
-              water_frequency: 1,
-              loaded: true,
-            });
-          }
+          this.setState({
+            _id: res.data._id,
+            plant_description: res.data.plant_description,
+            water_amount: res.data.water_amount,
+            plant_priority: res.data.plant_priority,
+            plant_completed: res.data.plant_completed,
+            date_watered: res.data.date_watered,
+            increment_frequency: res.data.increment_frequency,
+            water_frequency: 1,
+            loaded: true,
+          });
         }
       })
       .catch(function (err) {
@@ -176,7 +174,7 @@ export default class EditPlant extends Component {
     return (
       <div>
         <NavBar />
-        {this.state.loaded ? (
+        {this._isMounted ? (
           <div style={{ marginTop: 20 }}>
             <h3>Edit {this.state.plant_description}</h3>
             <form onSubmit={this.onSubmit}>

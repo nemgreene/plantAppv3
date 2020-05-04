@@ -35,8 +35,6 @@ router.get("/plants", function (req, res) {
 });
 
 router.get("/plant", function (req, res) {
-  console.log("grabbng some plants");
-  console.log(req.headers.id);
   Plant.findById(req.headers.id, function (err, plant) {
     if (err) {
       console.log("could not get any plant");
