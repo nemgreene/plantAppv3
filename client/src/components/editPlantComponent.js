@@ -16,10 +16,11 @@ export default class EditPlant extends Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeFrequency = this.onChangeFrequency.bind(this);
     this.onChangeTimes = this.onChangeTimes.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       _id: "",
+      title: "",
       plant_description: "",
       water_amount: "",
       plant_priority: "",
@@ -75,6 +76,7 @@ export default class EditPlant extends Component {
             .then((res) => {
               this.setState({
                 _id: res.data._id,
+                title: res.data.plant_description,
                 plant_description: res.data.plant_description,
                 water_amount: res.data.water_amount,
                 plant_priority: res.data.plant_priority,
@@ -88,6 +90,7 @@ export default class EditPlant extends Component {
         } else {
           this.setState({
             _id: res.data._id,
+            title: res.data.plant_description,
             plant_description: res.data.plant_description,
             water_amount: res.data.water_amount,
             plant_priority: res.data.plant_priority,
@@ -103,20 +106,38 @@ export default class EditPlant extends Component {
         console.log("didmount error");
       });
   }
-
-  //handle repetetive code?
+  handleClick() {
+    this.setState({ plant_description: "" });
+  }
+  checkForbidden(string) {
+    let forbidden = "`~\t\v\0\\\"'!@#$%^&*()_+-={}[]|'<>?/;:".split("");
+    if (forbidden.includes(string.slice(-1))) {
+      this.message = "Forbidden character";
+      return "invalid";
+    } else {
+      this.setState({ flagged: false });
+      return "valid";
+    }
+  }
 
   onChangePlantDescription(e) {
-    this.setState({
-      plant_description: e.target.value,
-    });
+    if (this.checkForbidden(e.target.value) === "invalid") {
+      this.setState({ flagged: true });
+    } else {
+      this.setState({
+        plant_description: e.target.value,
+      });
+    }
   }
 
   onChangeWaterAmount(e) {
-    console.log(e.target.value);
-    this.setState({
-      water_amount: e.target.value,
-    });
+    if (this.checkForbidden(e.target.value) === "invalid") {
+      this.setState({ flagged: true });
+    } else {
+      this.setState({
+        water_amount: e.target.value,
+      });
+    }
   }
   onChangePlantPriority(e) {
     this.setState({
@@ -176,7 +197,7 @@ export default class EditPlant extends Component {
         <NavBar />
         {this._isMounted ? (
           <div style={{ marginTop: 20 }}>
-            <h3>Edit {this.state.plant_description}</h3>
+            <h3>Edit {this.state.title}</h3>
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label>Description</label>
@@ -185,6 +206,7 @@ export default class EditPlant extends Component {
                   className="form-control"
                   value={this.state.plant_description}
                   onChange={this.onChangePlantDescription}
+                  onClick={this.handleClick}
                 ></input>
               </div>
               <div className="form-group">

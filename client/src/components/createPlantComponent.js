@@ -34,11 +34,12 @@ export default class CreatePlant extends Component {
       water_frequency: "",
       increment_frequency: "",
       flagged: false,
+      saved: false,
     };
   }
 
   checkForbidden(string) {
-    let forbidden = "!@#$%^&*()_+-={}[]|'<>?/;:".split("");
+    let forbidden = "`~\t\v\0\\\"'!@#$%^&*()_+-={}[]|'<>?/;:".split("");
     if (forbidden.includes(string.slice(-1))) {
       this.message = "Forbidden character";
       return "invalid";
@@ -119,7 +120,6 @@ export default class CreatePlant extends Component {
       !water_day ||
       !water_frequency
     ) {
-      console.log("incomplete feilds");
       console.log(
         plant_description,
         water_amount,
@@ -208,6 +208,9 @@ export default class CreatePlant extends Component {
           console.log("retry intial call");
           console.log(document.cookie);
           //retry our intial call with updated cookies in document
+        } else {
+          console.log("saved");
+          this.setState({ saved: true });
         }
       })
       .catch((error) => console.log("error", error));
@@ -328,6 +331,7 @@ export default class CreatePlant extends Component {
                 <label className="form-check-label">High</label>
               </div>
             </div>
+
             <div className="form-group">
               <button
                 type="submit"
@@ -344,6 +348,13 @@ export default class CreatePlant extends Component {
                 Back to dash
               </a>
             </div>
+            {this.state.saved ? (
+              <div className="alert alert-success" role="alert">
+                Plant successfully added
+              </div>
+            ) : (
+              <div></div>
+            )}
           </form>
         </div>
       </div>
